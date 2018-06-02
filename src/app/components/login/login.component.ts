@@ -12,7 +12,10 @@ import { UserService } from '../../services/user.service';
 export class LoginComponent implements OnInit{
 	public title: string;
 	public user: User;
+	public token;
+	public identity;
 	public status: string;
+	public message: string;
 
 	constructor(
 		private _route: ActivatedRoute,
@@ -25,37 +28,57 @@ export class LoginComponent implements OnInit{
 
 	ngOnInit(){
 		console.log('login.component cargado correctamente!!');
+		this.logout();
 	}
 
 	onSubmit(form){
+
 		this._userService.signup(this.user).subscribe(
-			response => {
-				if(response.status == 'success'){
+			response => 
+			{
+				if(response.status == 'error'){
 					this.status = response.status;
-					console.log(response);
+					this.message = response.message;
+				}else{
+					// Token
+					this.token = response;
+					localStorage.setItem('token', this.token);
 
 					// Nueva petición para obtener el usuario en claro
 					this._userService.signup(this.user, true).subscribe(
 						response => {
-							this.status = response.status;
-							console.log(response);
+							// Almacenar datos usuario en claro
+							this.identity = response;
+							localStorage.setItem('identity', JSON.stringify(this.identity));
 
-							// vaciar el modelo y formulario
-							this.user = new User(1, 'ROLE_USER', '', '', '', '');
-							form.reset();
+							//Redireccion
+							this._router.navigate(['home']);
 						},
 						error => {
 							console.log(<any>error);
 						}
 					);
-
-				}else{
-					this.status = 'error';
 				}
 			},
 			error => {
 				console.log(<any>error);
 			}
 		);
+	}
+
+	logout(){
+		this._route.params.subscribe(params => {
+			let logout = +params['sure'];
+			if(logout == 1){
+				localStorage.removeItem('identity');
+				localStorage.removeItem('token');
+
+				this.identity = null;
+				this.token = null;
+
+				// Redireccion
+				this._router.navigate(['home']);
+			}
+		});
 	}
 }

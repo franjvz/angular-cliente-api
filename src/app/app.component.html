@@ -9,19 +9,28 @@
     <div class="collapse navbar-collapse" id="menu">
       <ul class="nav navbar-nav">
         <li>
-          <a href="#">Inicio</a>
+          <a [routerLink] = "['default']">Inicio</a>
         </li>
-        <li>
+        <li *ngIf="identity">
           <a href="#">Crear coche</a>
         </li>
       </ul>
 
-      <ul class="nav navbar-nav navbar-right">
+      <ul class="nav navbar-nav navbar-right" *ngIf="!identity">
         <li>
           <a [routerLink] = "['login']">Login</a>
         </li>
         <li>
           <a [routerLink] = "['register']">Registro</a>
+        </li>
+      </ul>
+
+      <ul class="nav navbar-nav navbar-right" *ngIf="identity">
+        <li>
+          <a href="#">{{identity.name + ' ' + identity.surname}}</a>
+        </li>
+        <li>
+          <a [routerLink] = "['logout', 1]"><span class="glyphicon glyphicon-log-out"></span> SALIR</a>
         </li>
       </ul>
     </div>
