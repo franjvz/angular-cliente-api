@@ -1,1 +1,16 @@
-<h1>{{title}}</h1>
+<div class="loading" *ngIf="!cars">
+	Cargando...
+</div>
+
+<div class="col-md-12" *ngIf="cars">
+	<h2>{{title}}</h2>
+
+	<div *ngFor="let car of cars" style="border-bottom:1px solid red">
+		<ul>
+			<li>Titulo: {{car.title}}</li>
+			<li>Descripcion: {{car.description}}</li>
+			<li>Precio: {{car.price}}</li>
+			<li>En venta: {{car.status}}</li>
+		</ul>
+	</div>
+</div>
