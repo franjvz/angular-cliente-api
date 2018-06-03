@@ -2,14 +2,14 @@
 <header id="header">
   <div class="navbar navbar-inverse">
     <div class="navbar-header">
-      <a href="" class="navbar-brand">
+      <a href="/" class="navbar-brand">
         CONCESIONARIO
       </a>
     </div>
     <div class="collapse navbar-collapse" id="menu">
       <ul class="nav navbar-nav">
         <li>
-          <a [routerLink] = "['default']">Inicio</a>
+          <a href="/">Inicio</a>
         </li>
         <li *ngIf="identity">
           <a [routerLink] = "['crear-coche']">Crear coche</a>

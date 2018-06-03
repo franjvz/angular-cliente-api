@@ -1,3 +1,5 @@
-<p>
-  car-detail works!
-</p>
+<div class="col-md-12" *ngIf="car">
+	<h1>{{car.title}}</h1>
+	<p>{{car.description}}</p>
+	<p>{{car.price}} | {{car.status}}</p>
+</div>

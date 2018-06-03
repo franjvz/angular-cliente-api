@@ -14,6 +14,7 @@ import { CarService } from '../../services/car.service';
 export class DefaultComponent implements OnInit{
 	public title: string;
 	public cars: Array<Car>;
+	public token:string;
 
 	constructor(
 		private _route: ActivatedRoute,
@@ -22,10 +23,15 @@ export class DefaultComponent implements OnInit{
 		private _carService: CarService
 	){
 		this.title = 'Inicio';
+		this.token = this._userService.getToken();
 	}
 
 	ngOnInit(){
 		console.log('default.component cargado correctamente!!');
+		this.getCars();
+	}
+
+	getCars(){
 		this._carService.getCars(this._userService.getToken()).subscribe(
 
 			response => {
@@ -36,8 +42,18 @@ export class DefaultComponent implements OnInit{
 				console.log(error);
 			}
 
-
 		);
+	}
+
+	deleteCar(id){
+		this._carService.delete(this.token, id).subscribe(
+			response => {
+				this.getCars();
+			},
+			error => {
+				console.log(error);
+			}
+		)	
 	}
 
 }

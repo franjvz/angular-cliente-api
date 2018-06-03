@@ -5,12 +5,38 @@
 <div class="col-md-12" *ngIf="cars">
 	<h2>{{title}}</h2>
 
-	<div *ngFor="let car of cars" style="border-bottom:1px solid red">
-		<ul>
-			<li>Titulo: {{car.title}}</li>
-			<li>Descripcion: {{car.description}}</li>
-			<li>Precio: {{car.price}}</li>
-			<li>En venta: {{car.status}}</li>
-		</ul>
-	</div>
+	<table id="cars-list" class="table table-responsive table-hover table-stripped">
+		<thead>
+			<th class="col-md-4">Titulo</th>
+			<th class="col-md-4">Descripcion</th>
+			<th class="col-md-1">Precio</th>
+			<th class="col-md-1">En venta</th>
+			<th class="col-md-2">Acciones</th>
+		</thead>
+		<tbody>
+			<tr *ngFor="let car of cars">
+				<td>{{car.title}}</td>
+				<td>{{car.description}}</td>
+				<td>{{car.price}}€</td>
+				<td>
+					<span *ngIf="car.status == 'true' || car.status == true" class="label label-success">Sí ({{car.status}})</span>
+					<span *ngIf="car.status == 'false' || car.status == false" class="label label-danger">No ({{car.status}})</span>
+				</td>
+				<td>
+					<a [routerLink] = "['coche/', car.id]" class="btn btn-sm btn-default">
+						<span class="glyphicon glyphicon-search"></span> Ver
+					</a>
+					<a [routerLink] = "['editar-coche/', car.id]" class="btn btn-sm btn-primary">
+						<span class="glyphicon glyphicon-pencil"></span> Editar
+					</a>
+					<a (click)="deleteCar(car.id)" class="btn btn-sm btn-warning">
+						<span class="glyphicon glyphicon-trash"></span> Borrar
+					</a>
+				</td>
+			</tr>
+		</tbody>
+		<tfoot>
+			
+		</tfoot>
+	</table>
 </div>
